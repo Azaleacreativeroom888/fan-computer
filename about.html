@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>about | パソコン勉強ノート</title>
+<meta name="description" content="パソコン勉強ノートというサイトについて。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF2F6;
+    --bg-card:#FFFFFF;
+    --navy:#1B2A4A;
+    --navy-deep:#101A33;
+    --blue:#74C9E0;
+    --blue-soft:#E3F4F8;
+    --gray:#6B7280;
+    --gray-line:#D7DCE2;
+    --mono:'JetBrains Mono', monospace;
+    --disp:'Zen Kaku Gothic New', sans-serif;
+    --body:'Noto Sans JP', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:
+      linear-gradient(var(--bg) 0%, var(--bg) 100%),
+      repeating-linear-gradient(0deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(90deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px);
+    color:var(--navy);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--navy); text-decoration:none;}
+  :focus-visible{outline:3px solid var(--blue); outline-offset:2px; border-radius:2px;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Header / tab bar (shared) ---------- */
+  header{background:var(--navy-deep); padding:16px 0 0;}
+  .titlebar{display:flex; align-items:center; gap:10px; padding:0 24px 14px; max-width:960px; margin:0 auto;}
+  .dots{display:flex; gap:7px;}
+  .dot{width:11px; height:11px; border-radius:50%;}
+  .dot.g{background:var(--gray);}
+  .dot.b{background:var(--blue);}
+  .dot.n{background:#3C5686;}
+  .titlebar .path{font-family:var(--mono); font-size:12px; color:#9FB3D6; letter-spacing:.02em;}
+  .brand-row{max-width:960px; margin:0 auto; padding:2px 24px 20px; display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+  .brand{font-family:var(--disp); font-weight:900; font-size:clamp(22px, 4vw, 30px); color:#fff; letter-spacing:.02em;}
+  .brand .cursor-suffix{color:var(--blue);}
+  .eyebrow-top{font-family:var(--mono); font-size:12px; color:var(--blue); letter-spacing:.12em;}
+  nav.tabs{max-width:960px; margin:0 auto; display:flex; gap:6px; padding:0 20px; overflow-x:auto;}
+  nav.tabs a{font-family:var(--mono); font-size:13px; color:#B9C6DE; background:#182545; padding:10px 18px 12px; border-radius:8px 8px 0 0; white-space:nowrap; border-bottom:3px solid transparent; transition:background .15s ease, color .15s ease;}
+  nav.tabs a:hover{color:#fff; background:#20315A;}
+  nav.tabs a.active{background:var(--bg); color:var(--navy); font-weight:700; border-bottom:3px solid var(--blue);}
+
+  main{padding:48px 0 0;}
+
+  .page-head{display:flex; align-items:baseline; gap:12px; margin-bottom:8px;}
+  .page-head .num{font-family:var(--mono); color:var(--blue); font-size:13px;}
+  .page-head h1{font-family:var(--disp); font-weight:700; font-size:22px;}
+  .page-sub{font-family:var(--mono); font-size:12px; color:var(--gray); margin-bottom:32px;}
+
+  /* ---------- README document window ---------- */
+  .doc{
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:40px;
+  }
+  .doc .dbar{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 16px;
+    background:#F5F7FA;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .doc .dbar .dot{width:8px; height:8px;}
+  .doc .dbar .fname{margin-left:8px; font-family:var(--mono); font-size:11.5px; color:var(--gray);}
+  .doc .dbody{padding:34px 30px 38px;}
+  .doc h2{
+    font-family:var(--mono); font-weight:700; font-size:16px;
+    color:var(--navy);
+    margin-bottom:16px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .doc h2 .hash{color:var(--blue); margin-right:8px;}
+  .doc h3{
+    font-family:var(--mono); font-weight:700; font-size:13.5px;
+    color:var(--navy);
+    margin:28px 0 12px;
+  }
+  .doc h3 .hash{color:var(--blue); margin-right:8px;}
+  .doc p{font-size:14.5px; color:#3C4658; max-width:66ch;}
+  .doc p + p{margin-top:14px;}
+  .doc section + section{margin-top:8px;}
+
+  .tag-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
+  .tag{
+    font-family:var(--mono); font-size:12px;
+    color:var(--navy);
+    background:var(--blue-soft);
+    border:1px solid #C7E7F0;
+    padding:6px 12px;
+    border-radius:6px;
+  }
+
+  /* ---------- Profile link grid ---------- */
+  .link-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:12px;
+    margin-top:18px;
+  }
+  .link-card{
+    display:flex; align-items:center; gap:12px;
+    background:#FBFCFD;
+    border:1px solid var(--gray-line);
+    border-left:3px solid var(--blue);
+    border-radius:6px;
+    padding:12px 14px;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .link-card:hover{background:var(--blue-soft); transform:translateX(2px);}
+  .link-card .icon{font-size:18px; flex-shrink:0;}
+  .link-card .txt{min-width:0;}
+  .link-card .name{display:block; font-size:13.5px; font-weight:700; color:var(--navy);}
+  .link-card .desc{display:block; font-size:11.5px; color:var(--gray); margin-top:2px;}
+
+  /* ---------- Footer (shared) ---------- */
+  footer{background:var(--navy-deep); color:#B9C6DE; padding:40px 0 28px; margin-top:20px;}
+  footer .flinks{display:flex; flex-wrap:wrap; gap:8px 18px; font-family:var(--mono); font-size:12px; margin-bottom:20px;}
+  footer .flinks a{color:#B9C6DE;}
+  footer .flinks a:hover{color:var(--blue);}
+  footer .notice{font-size:11.5px; color:#7A88A8; line-height:1.9; border-top:1px solid #22315A; padding-top:18px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="titlebar">
+    <div class="dots"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span></div>
+    <span class="path">~/pc-benkyou/about.html</span>
+  </div>
+  <div class="brand-row">
+    <span class="brand">パソコン勉強ノート<span class="cursor-suffix">_</span></span>
+    <span class="eyebrow-top">LEARNING LOG</span>
+  </div>
+  <nav class="tabs">
+    <a href="index.html">index.html</a>
+    <a href="blog.html">blog.html</a>
+    <a href="column.html">column.html</a>
+    <a href="about.html" class="active">about.html</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head"><span class="num">about</span><h1>このサイトについて</h1></div>
+  <div class="page-sub">// README.md</div>
+
+  <article class="doc">
+    <div class="dbar">
+      <span class="dot g"></span><span class="dot b"></span><span class="dot n"></span>
+      <span class="fname">README.md</span>
+    </div>
+    <div class="dbody">
+
+      <section>
+        <h2><span class="hash">#</span>このサイトについて</h2>
+        <p>もともとパソコンは得意な方ではありませんでしたが、自分でウェブサイトを作るようになったのをきっかけに、少しずつ勉強を始めました。ファイルの整理の仕方、ショートカットキー、うまくいかない時の直し方など、作業をしながら覚えたことをここに記録しています。</p>
+        <p>誰かに教えるための解説サイトではなく、自分の理解を確かめるためのノートです。同じところでつまずいている人の、ちょっとした参考になれば嬉しいです。</p>
+      </section>
+
+      <section>
+        <h3><span class="hash">##</span>学んでいること</h3>
+        <div class="tag-row">
+          <span class="tag">#基本操作</span>
+          <span class="tag">#トラブルシューティング</span>
+          <span class="tag">#ショートカットキー</span>
+          <span class="tag">#ファイル管理</span>
+          <span class="tag">#便利ツール</span>
+          <span class="tag">#設定・カスタマイズ</span>
+        </div>
+      </section>
+
+      <section>
+        <h3><span class="hash">##</span>更新について</h3>
+        <p>不定期更新です。<a href="blog.html" style="color:var(--navy); text-decoration:underline;">blog</a>にその日ごとの記録、<a href="column.html" style="color:var(--navy); text-decoration:underline;">column</a>にまとまったテーマの記事を書いています。</p>
+      </section>
+
+      <section>
+        <h3><span class="hash">##</span>運営者について</h3>
+        <p>普段は漫画やイラスト、翻訳の勉強をしています。ウェブサイト作りも趣味のひとつで、その延長でパソコンの勉強も始めました。制作物やその他のサイトは以下からどうぞ。</p>
+
+        <div class="link-grid">
+          <a class="link-card" href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">
+            <span class="icon">🏠</span>
+            <span class="txt"><span class="name">Azalea Creative Room</span><span class="desc">創作のホームページ</span></span>
+          </a>
+          <a class="link-card" href="https://rookie.shonenjump.com/users/14728546961183734555" target="_blank" rel="noopener">
+            <span class="icon">📚</span>
+            <span class="txt"><span class="name">ジャンプルーキー</span><span class="desc">オリジナル漫画</span></span>
+          </a>
+          <a class="link-card" href="https://daysneo.com/author/Sam333333Sam/" target="_blank" rel="noopener">
+            <span class="icon">🌙</span>
+            <span class="txt"><span class="name">DaysNEO</span><span class="desc">漫画掲載サイト</span></span>
+          </a>
+          <a class="link-card" href="https://kakuyomu.jp/users/azalea_azalea72" target="_blank" rel="noopener">
+            <span class="icon">✒️</span>
+            <span class="txt"><span class="name">カクヨム</span><span class="desc">小説</span></span>
+          </a>
+          <a class="link-card" href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">
+            <span class="icon">🎨</span>
+            <span class="txt"><span class="name">Pixiv</span><span class="desc">イラスト</span></span>
+          </a>
+          <a class="link-card" href="https://www.youtube.com/@LilyPopins0512" target="_blank" rel="noopener">
+            <span class="icon">🎬</span>
+            <span class="txt"><span class="name">YouTube（リリポピ）</span><span class="desc">動画チャンネル</span></span>
+          </a>
+          <a class="link-card" href="https://bsky.app/profile/azaleaazalea88.bsky.social" target="_blank" rel="noopener">
+            <span class="icon">🦋</span>
+            <span class="txt"><span class="name">Bluesky</span><span class="desc">近況・お知らせ</span></span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">Azalea Creative Room</a>
+      <a href="https://rookie.shonenjump.com/users/14728546961183734555" target="_blank" rel="noopener">Jump Rookie (Azalea72)</a>
+      <a href="https://daysneo.com/author/Sam333333Sam/" target="_blank" rel="noopener">DaysNEO</a>
+      <a href="https://kakuyomu.jp/users/azalea_azalea72" target="_blank" rel="noopener">Kakuyomu</a>
+      <a href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">Pixiv</a>
+      <a href="https://www.youtube.com/@LilyPopins0512" target="_blank" rel="noopener">YouTube (リリポピ)</a>
+    </div>
+    <div class="notice">
+      当サイトに掲載されている画像・文章・作品について、AI学習への利用、トレース（トレパク）、無断転載・転載、二次利用を禁止します。スクリーンショットの転載・無断引用はご遠慮ください。<br>
+      Please refrain from using any images, text, or works on this website for AI training, tracing, unauthorized reproduction, redistribution, or secondary use.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
