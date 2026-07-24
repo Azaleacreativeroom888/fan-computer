@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パソコン勉強ノート | Learning Log</title>
+<meta name="description" content="パソコンについて学んだことを記録していく個人学習ノート。基本操作からトラブルシューティングまで。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF2F6;
+    --bg-card:#FFFFFF;
+    --navy:#1B2A4A;
+    --navy-deep:#101A33;
+    --blue:#74C9E0;
+    --blue-soft:#E3F4F8;
+    --gray:#6B7280;
+    --gray-line:#D7DCE2;
+    --mono:'JetBrains Mono', monospace;
+    --disp:'Zen Kaku Gothic New', sans-serif;
+    --body:'Noto Sans JP', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:
+      linear-gradient(var(--bg) 0%, var(--bg) 100%),
+      repeating-linear-gradient(0deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(90deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px);
+    color:var(--navy);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--navy); text-decoration:none;}
+  img{max-width:100%; display:block;}
+  :focus-visible{outline:3px solid var(--blue); outline-offset:2px; border-radius:2px;}
+
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Header / tab bar ---------- */
+  header{
+    background:var(--navy-deep);
+    padding:16px 0 0;
+  }
+  .titlebar{
+    display:flex; align-items:center; gap:10px;
+    padding:0 24px 14px;
+    max-width:960px; margin:0 auto;
+  }
+  .dots{display:flex; gap:7px;}
+  .dot{width:11px; height:11px; border-radius:50%;}
+  .dot.g{background:var(--gray);}
+  .dot.b{background:var(--blue);}
+  .dot.n{background:#3C5686;}
+  .titlebar .path{
+    font-family:var(--mono);
+    font-size:12px;
+    color:#9FB3D6;
+    letter-spacing:.02em;
+  }
+  .brand-row{
+    max-width:960px; margin:0 auto;
+    padding:2px 24px 20px;
+    display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+  .brand{
+    font-family:var(--disp); font-weight:900;
+    font-size:clamp(22px, 4vw, 30px);
+    color:#fff;
+    letter-spacing:.02em;
+  }
+  .brand .cursor-suffix{color:var(--blue);}
+  .eyebrow-top{
+    font-family:var(--mono); font-size:12px; color:var(--blue);
+    letter-spacing:.12em;
+  }
+  nav.tabs{
+    max-width:960px; margin:0 auto;
+    display:flex; gap:6px; padding:0 20px;
+    overflow-x:auto;
+  }
+  nav.tabs a{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#B9C6DE;
+    background:#182545;
+    padding:10px 18px 12px;
+    border-radius:8px 8px 0 0;
+    white-space:nowrap;
+    border-bottom:3px solid transparent;
+    transition:background .15s ease, color .15s ease;
+  }
+  nav.tabs a:hover{color:#fff; background:#20315A;}
+  nav.tabs a.active{
+    background:var(--bg);
+    color:var(--navy);
+    font-weight:700;
+    border-bottom:3px solid var(--blue);
+  }
+
+  main{padding:56px 0 0;}
+  section{padding:0 0 64px;}
+
+  /* ---------- Terminal hero ---------- */
+  .terminal{
+    background:var(--navy-deep);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 20px 40px -20px rgba(16,26,51,0.5);
+  }
+  .terminal .tbar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    background:#182545;
+  }
+  .terminal .tbar span.name{
+    margin-left:8px;
+    font-family:var(--mono); font-size:12px; color:#8C9CBE;
+  }
+  .terminal .tbody{
+    padding:28px 24px 32px;
+    font-family:var(--mono);
+    font-size:14px;
+    color:#D7E4F7;
+    min-height:190px;
+  }
+  .terminal .tbody .line{margin-bottom:10px; white-space:pre-wrap;}
+  .terminal .prompt{color:var(--blue);}
+  .terminal .out{color:#93E6C4;}
+  .cursor{
+    display:inline-block; width:8px; height:15px;
+    background:var(--blue);
+    margin-left:2px;
+    animation:blink 1s step-end infinite;
+    vertical-align:text-bottom;
+  }
+  @media (prefers-reduced-motion:reduce){ .cursor{animation:none; opacity:1;} }
+  @keyframes blink{ 50%{opacity:0;} }
+
+  /* ---------- Intro ---------- */
+  .intro{padding-top:44px;}
+  .intro p{color:#3C4658; max-width:60ch;}
+  .intro p + p{margin-top:14px;}
+
+  .tag-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px;}
+  .tag{
+    font-family:var(--mono); font-size:12px;
+    color:var(--navy);
+    background:var(--blue-soft);
+    border:1px solid #C7E7F0;
+    padding:6px 12px;
+    border-radius:6px;
+  }
+
+  /* ---------- Section heading ---------- */
+  .sec-head{display:flex; align-items:baseline; gap:12px; margin-bottom:24px;}
+  .sec-head .num{font-family:var(--mono); color:var(--blue); font-size:13px;}
+  .sec-head h2{font-family:var(--disp); font-weight:700; font-size:22px;}
+
+  /* ---------- Window cards (page links) ---------- */
+  .windows{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+  @media (max-width:760px){ .windows{grid-template-columns:1fr;} }
+  .win{
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:10px;
+    overflow:hidden;
+    transition:transform .18s ease, box-shadow .18s ease;
+    display:flex; flex-direction:column;
+  }
+  .win:hover{transform:translateY(-4px); box-shadow:0 16px 30px -18px rgba(27,42,74,0.35);}
+  .win .wbar{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 14px;
+    background:#F5F7FA;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .win .wbar .dot{width:8px; height:8px;}
+  .win .wbar .fname{
+    margin-left:6px; font-family:var(--mono); font-size:11px; color:var(--gray);
+  }
+  .win .wbody{padding:20px; flex:1; display:flex; flex-direction:column;}
+  .win h3{font-family:var(--disp); font-size:17px; margin-bottom:8px;}
+  .win p{font-size:13.5px; color:var(--gray); flex:1;}
+  .win .go{
+    margin-top:16px; font-family:var(--mono); font-size:12px;
+    color:var(--navy); display:inline-flex; align-items:center; gap:6px;
+  }
+  .win .go .arrow{color:var(--blue); transition:transform .15s ease;}
+  .win:hover .go .arrow{transform:translateX(4px);}
+
+  /* ---------- Contact ---------- */
+  .contact-box{
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:10px;
+    padding:28px 24px;
+  }
+  .contact-box p{color:var(--gray); font-size:13.5px; margin-bottom:18px;}
+  form.contact{display:grid; gap:12px; max-width:480px;}
+  form.contact input, form.contact textarea{
+    font-family:var(--body);
+    font-size:14px;
+    padding:11px 13px;
+    border:1px solid var(--gray-line);
+    border-radius:7px;
+    background:#FBFCFD;
+    color:var(--navy);
+  }
+  form.contact textarea{min-height:110px; resize:vertical;}
+  form.contact button{
+    justify-self:start;
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    background:var(--navy-deep); color:#fff;
+    border:none; padding:11px 22px; border-radius:7px;
+    cursor:pointer; transition:background .15s ease;
+  }
+  form.contact button:hover{background:var(--navy);}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--navy-deep); color:#B9C6DE;
+    padding:40px 0 28px; margin-top:20px;
+  }
+  footer .flinks{
+    display:flex; flex-wrap:wrap; gap:8px 18px;
+    font-family:var(--mono); font-size:12px;
+    margin-bottom:20px;
+  }
+  footer .flinks a{color:#B9C6DE;}
+  footer .flinks a:hover{color:var(--blue);}
+  footer .notice{
+    font-size:11.5px; color:#7A88A8; line-height:1.9;
+    border-top:1px solid #22315A; padding-top:18px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="titlebar">
+    <div class="dots"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span></div>
+    <span class="path">~/pc-benkyou/index.html</span>
+  </div>
+  <div class="brand-row">
+    <span class="brand">パソコン勉強ノート<span class="cursor-suffix">_</span></span>
+    <span class="eyebrow-top">LEARNING LOG</span>
+  </div>
+  <nav class="tabs">
+    <a href="index.html" class="active">index.html</a>
+    <a href="blog.html">blog.html</a>
+    <a href="column.html">column.html</a>
+    <a href="about.html">about.html</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section class="intro" style="padding-top:48px;">
+    <div class="terminal">
+      <div class="tbar">
+        <span class="dot g"></span><span class="dot b"></span><span class="dot n"></span>
+        <span class="name">terminal — 80x24</span>
+      </div>
+      <div class="tbody">
+        <div class="line"><span class="prompt">$</span> whoami</div>
+        <div class="line out">&gt; パソコン初心者。日々、少しずつ勉強中です。</div>
+        <div class="line"><span class="prompt">$</span> cat mission.txt</div>
+        <div class="line out">&gt; ここでは、パソコンについて学んだことをその都度メモしていきます。<br>&gt; 難しい専門サイトではなく、自分の理解のための記録です。</div>
+        <div class="line"><span class="prompt">$</span> ls</div>
+        <div class="line out">blog.html&nbsp;&nbsp;column.html&nbsp;&nbsp;about.html<span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <div style="padding-top:36px;">
+      <p>このサイトは、パソコンについて勉強したことを記録していく個人的なノートです。基本操作やショートカット、トラブルが起きたときの対処法、便利だと思ったツールなど、学んだ内容を少しずつ書き溜めていきます。</p>
+      <p>専門家としてではなく、勉強中の一人として、つまずいたことや理解できたことを素直に記録していく場所です。</p>
+      <div class="tag-row">
+        <span class="tag">#基本操作</span>
+        <span class="tag">#トラブルシューティング</span>
+        <span class="tag">#ショートカットキー</span>
+        <span class="tag">#便利ツール</span>
+        <span class="tag">#設定・カスタマイズ</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">02</span><h2>このサイトについて</h2></div>
+    <div class="windows">
+
+      <div class="win">
+        <div class="wbar"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span><span class="fname">blog.html</span></div>
+        <div class="wbody">
+          <h3>日記</h3>
+          <p>日付ごとに、その日勉強したことや気づいたことを短く記録していきます。</p>
+          <a class="go" href="blog.html">開く <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="win">
+        <div class="wbar"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span><span class="fname">column.html</span></div>
+        <div class="wbody">
+          <h3>コラム</h3>
+          <p>もう少しまとまったテーマについて、じっくり書く記事のページです。</p>
+          <a class="go" href="column.html">開く <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="win">
+        <div class="wbar"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span><span class="fname">about.html</span></div>
+        <div class="wbody">
+          <h3>このサイトについて</h3>
+          <p>サイトを作った理由や、勉強を始めたきっかけについて書いています。</p>
+          <a class="go" href="about.html">開く <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">03</span><h2>お問い合わせ</h2></div>
+    <div class="contact-box">
+      <p>ご感想やご指摘などありましたら、お気軽にどうぞ。</p>
+      <form class="contact" action="https://formspree.io/f/maqvpvoz" method="POST">
+        <input type="text" name="name" placeholder="お名前" required>
+        <input type="email" name="email" placeholder="メールアドレス" required>
+        <textarea name="message" placeholder="メッセージ" required></textarea>
+        <button type="submit">送信する</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">Azalea Creative Room</a>
+      <a href="#" target="_blank" rel="noopener">Jump Rookie (Azalea72)</a>
+      <a href="#" target="_blank" rel="noopener">DaysNEO</a>
+      <a href="#" target="_blank" rel="noopener">Kakuyomu</a>
+      <a href="#" target="_blank" rel="noopener">Pixiv</a>
+      <a href="#" target="_blank" rel="noopener">YouTube (リリポピ)</a>
+    </div>
+    <div class="notice">
+      本サイトに掲載されている文章・画像等の無断転載を禁じます。また、生成AIの学習データとしての利用を禁止します。<br>
+      © パソコン勉強ノート
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
