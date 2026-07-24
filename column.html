@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>column | パソコン勉強ノート</title>
+<meta name="description" content="パソコンについてまとまったテーマで書くコラムページ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF2F6;
+    --bg-card:#FFFFFF;
+    --navy:#1B2A4A;
+    --navy-deep:#101A33;
+    --blue:#74C9E0;
+    --blue-soft:#E3F4F8;
+    --gray:#6B7280;
+    --gray-line:#D7DCE2;
+    --mono:'JetBrains Mono', monospace;
+    --disp:'Zen Kaku Gothic New', sans-serif;
+    --body:'Noto Sans JP', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:
+      linear-gradient(var(--bg) 0%, var(--bg) 100%),
+      repeating-linear-gradient(0deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(90deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px);
+    color:var(--navy);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--navy); text-decoration:none;}
+  :focus-visible{outline:3px solid var(--blue); outline-offset:2px; border-radius:2px;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Header / tab bar (shared) ---------- */
+  header{background:var(--navy-deep); padding:16px 0 0;}
+  .titlebar{display:flex; align-items:center; gap:10px; padding:0 24px 14px; max-width:960px; margin:0 auto;}
+  .dots{display:flex; gap:7px;}
+  .dot{width:11px; height:11px; border-radius:50%;}
+  .dot.g{background:var(--gray);}
+  .dot.b{background:var(--blue);}
+  .dot.n{background:#3C5686;}
+  .titlebar .path{font-family:var(--mono); font-size:12px; color:#9FB3D6; letter-spacing:.02em;}
+  .brand-row{max-width:960px; margin:0 auto; padding:2px 24px 20px; display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+  .brand{font-family:var(--disp); font-weight:900; font-size:clamp(22px, 4vw, 30px); color:#fff; letter-spacing:.02em;}
+  .brand .cursor-suffix{color:var(--blue);}
+  .eyebrow-top{font-family:var(--mono); font-size:12px; color:var(--blue); letter-spacing:.12em;}
+  nav.tabs{max-width:960px; margin:0 auto; display:flex; gap:6px; padding:0 20px; overflow-x:auto;}
+  nav.tabs a{font-family:var(--mono); font-size:13px; color:#B9C6DE; background:#182545; padding:10px 18px 12px; border-radius:8px 8px 0 0; white-space:nowrap; border-bottom:3px solid transparent; transition:background .15s ease, color .15s ease;}
+  nav.tabs a:hover{color:#fff; background:#20315A;}
+  nav.tabs a.active{background:var(--bg); color:var(--navy); font-weight:700; border-bottom:3px solid var(--blue);}
+
+  main{padding:48px 0 0;}
+
+  .page-head{display:flex; align-items:baseline; gap:12px; margin-bottom:8px;}
+  .page-head .num{font-family:var(--mono); color:var(--blue); font-size:13px;}
+  .page-head h1{font-family:var(--disp); font-weight:700; font-size:22px;}
+  .page-sub{font-family:var(--mono); font-size:12px; color:var(--gray); margin-bottom:20px;}
+
+  /* ---------- Index list (jump to article) ---------- */
+  .index-list{
+    list-style:none;
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:10px;
+    margin-bottom:48px;
+    overflow:hidden;
+  }
+  .index-list li a{
+    display:flex; align-items:center; gap:14px;
+    padding:14px 18px;
+    font-size:14px;
+    border-bottom:1px solid var(--gray-line);
+    transition:background .15s ease;
+  }
+  .index-list li:last-child a{border-bottom:none;}
+  .index-list li a:hover{background:var(--blue-soft);}
+  .index-list .idx-date{font-family:var(--mono); font-size:11.5px; color:var(--gray); flex-shrink:0;}
+  .index-list .idx-title{font-weight:500;}
+  .index-list .idx-arrow{margin-left:auto; color:var(--blue); font-family:var(--mono); font-size:13px;}
+
+  /* ---------- Article (document window) ---------- */
+  .doc{
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:36px;
+    scroll-margin-top:24px;
+  }
+  .doc .dbar{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 16px;
+    background:#F5F7FA;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .doc .dbar .dot{width:8px; height:8px;}
+  .doc .dbar .fname{margin-left:8px; font-family:var(--mono); font-size:11.5px; color:var(--gray);}
+  .doc .dbody{padding:30px 28px 34px;}
+  .doc .meta{
+    font-family:var(--mono); font-size:11.5px; color:var(--gray);
+    margin-bottom:6px;
+  }
+  .doc h2{font-family:var(--disp); font-weight:700; font-size:20px; margin-bottom:16px;}
+  .doc p{font-size:14.5px; color:#3C4658; max-width:66ch;}
+  .doc p + p{margin-top:14px;}
+  .doc .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px;}
+  .doc .tag{
+    font-family:var(--mono); font-size:11.5px; color:var(--navy);
+    background:var(--blue-soft); border:1px solid #C7E7F0;
+    padding:4px 10px; border-radius:5px;
+  }
+
+  /* ---------- Footer (shared) ---------- */
+  footer{background:var(--navy-deep); color:#B9C6DE; padding:40px 0 28px; margin-top:20px;}
+  footer .flinks{display:flex; flex-wrap:wrap; gap:8px 18px; font-family:var(--mono); font-size:12px; margin-bottom:20px;}
+  footer .flinks a{color:#B9C6DE;}
+  footer .flinks a:hover{color:var(--blue);}
+  footer .notice{font-size:11.5px; color:#7A88A8; line-height:1.9; border-top:1px solid #22315A; padding-top:18px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="titlebar">
+    <div class="dots"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span></div>
+    <span class="path">~/pc-benkyou/column.html</span>
+  </div>
+  <div class="brand-row">
+    <span class="brand">パソコン勉強ノート<span class="cursor-suffix">_</span></span>
+    <span class="eyebrow-top">LEARNING LOG</span>
+  </div>
+  <nav class="tabs">
+    <a href="index.html">index.html</a>
+    <a href="blog.html">blog.html</a>
+    <a href="column.html" class="active">column.html</a>
+    <a href="about.html">about.html</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head"><span class="num">col</span><h1>コラム</h1></div>
+  <div class="page-sub">// 日記より少しまとまったテーマを、じっくり書く場所</div>
+
+  <ul class="index-list">
+    <li><a href="#col-01"><span class="idx-date">2026.07.24</span><span class="idx-title">コラムのタイトルをここに</span><span class="idx-arrow">→</span></a></li>
+    <li><a href="#col-02"><span class="idx-date">2026.07.10</span><span class="idx-title">コラムのタイトルをここに</span><span class="idx-arrow">→</span></a></li>
+  </ul>
+
+  <article class="doc" id="col-01">
+    <div class="dbar">
+      <span class="dot g"></span><span class="dot b"></span><span class="dot n"></span>
+      <span class="fname">essay_01.txt</span>
+    </div>
+    <div class="dbody">
+      <div class="meta">2026.07.24</div>
+      <h2>コラムのタイトルをここに</h2>
+      <p>ここに本文を書きます。日記よりも少し長めに、テーマについて考えたことをまとめます。</p>
+      <p>段落を分けて、じっくり書いていくスペースです。</p>
+      <div class="tags">
+        <span class="tag">#タグ1</span>
+        <span class="tag">#タグ2</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="doc" id="col-02">
+    <div class="dbar">
+      <span class="dot g"></span><span class="dot b"></span><span class="dot n"></span>
+      <span class="fname">essay_02.txt</span>
+    </div>
+    <div class="dbody">
+      <div class="meta">2026.07.10</div>
+      <h2>コラムのタイトルをここに</h2>
+      <p>ここに本文を書きます。</p>
+      <div class="tags">
+        <span class="tag">#タグ1</span>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">Azalea Creative Room</a>
+      <a href="#" target="_blank" rel="noopener">Jump Rookie (Azalea72)</a>
+      <a href="#" target="_blank" rel="noopener">DaysNEO</a>
+      <a href="#" target="_blank" rel="noopener">Kakuyomu</a>
+      <a href="#" target="_blank" rel="noopener">Pixiv</a>
+      <a href="#" target="_blank" rel="noopener">YouTube (リリポピ)</a>
+    </div>
+    <div class="notice">
+      本サイトに掲載されている文章・画像等の無断転載を禁じます。また、生成AIの学習データとしての利用を禁止します。<br>
+      © パソコン勉強ノート
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
