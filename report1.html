@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パソコンの用語一覧 | パソコン勉強ノート</title>
+<meta name="description" content="パソコンに出てくる用語を、解説とどこで使われているかと一緒にまとめた一覧ページ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF2F6;
+    --bg-card:#FFFFFF;
+    --navy:#1B2A4A;
+    --navy-deep:#101A33;
+    --blue:#74C9E0;
+    --blue-soft:#E3F4F8;
+    --gray:#6B7280;
+    --gray-line:#D7DCE2;
+    --mono:'JetBrains Mono', monospace;
+    --disp:'Zen Kaku Gothic New', sans-serif;
+    --body:'Noto Sans JP', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:
+      linear-gradient(var(--bg) 0%, var(--bg) 100%),
+      repeating-linear-gradient(0deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(90deg, rgba(27,42,74,0.035) 0px, rgba(27,42,74,0.035) 1px, transparent 1px, transparent 32px);
+    color:var(--navy);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--navy); text-decoration:none;}
+  :focus-visible{outline:3px solid var(--blue); outline-offset:2px; border-radius:2px;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Header / tab bar (shared) ---------- */
+  header{background:var(--navy-deep); padding:16px 0 0;}
+  .titlebar{display:flex; align-items:center; gap:10px; padding:0 24px 14px; max-width:960px; margin:0 auto;}
+  .dots{display:flex; gap:7px;}
+  .dot{width:11px; height:11px; border-radius:50%;}
+  .dot.g{background:var(--gray);}
+  .dot.b{background:var(--blue);}
+  .dot.n{background:#3C5686;}
+  .titlebar .path{font-family:var(--mono); font-size:12px; color:#9FB3D6; letter-spacing:.02em;}
+  .brand-row{max-width:960px; margin:0 auto; padding:2px 24px 20px; display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+  .brand{font-family:var(--disp); font-weight:900; font-size:clamp(22px, 4vw, 30px); color:#fff; letter-spacing:.02em;}
+  .brand .cursor-suffix{color:var(--blue);}
+  .eyebrow-top{font-family:var(--mono); font-size:12px; color:var(--blue); letter-spacing:.12em;}
+  nav.tabs{max-width:960px; margin:0 auto; display:flex; gap:6px; padding:0 20px; overflow-x:auto;}
+  nav.tabs a{font-family:var(--mono); font-size:13px; color:#B9C6DE; background:#182545; padding:10px 18px 12px; border-radius:8px 8px 0 0; white-space:nowrap; border-bottom:3px solid transparent; transition:background .15s ease, color .15s ease;}
+  nav.tabs a:hover{color:#fff; background:#20315A;}
+  nav.tabs a.active{background:var(--bg); color:var(--navy); font-weight:700; border-bottom:3px solid var(--blue);}
+
+  main{padding:48px 0 0;}
+
+  .page-head{display:flex; align-items:baseline; gap:12px; margin-bottom:8px;}
+  .page-head .num{font-family:var(--mono); color:var(--blue); font-size:13px;}
+  .page-head h1{font-family:var(--disp); font-weight:700; font-size:22px;}
+  .page-sub{font-family:var(--mono); font-size:12px; color:var(--gray); margin-bottom:28px;}
+
+  /* ---------- Glossary window ---------- */
+  .doc{
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:28px;
+  }
+  .doc .dbar{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 16px;
+    background:#F5F7FA;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .doc .dbar .dot{width:8px; height:8px;}
+  .doc .dbar .fname{margin-left:8px; font-family:var(--mono); font-size:11.5px; color:var(--gray);}
+
+  table.glossary{width:100%; border-collapse:collapse;}
+  table.glossary thead th{
+    font-family:var(--mono); font-size:11.5px; font-weight:700;
+    text-align:left;
+    color:#B9C6DE;
+    background:var(--navy-deep);
+    padding:12px 18px;
+    letter-spacing:.06em;
+  }
+  table.glossary tbody td{
+    padding:16px 18px;
+    font-size:14px;
+    color:#3C4658;
+    border-bottom:1px solid var(--gray-line);
+    vertical-align:top;
+  }
+  table.glossary tbody tr:last-child td{border-bottom:none;}
+  table.glossary tbody tr:hover td{background:#F7FBFD;}
+  table.glossary td.term{
+    font-family:var(--disp); font-weight:700; font-size:15px;
+    color:var(--navy);
+    white-space:nowrap;
+    width:18%;
+  }
+  table.glossary td.term .en{
+    display:block;
+    font-family:var(--mono); font-size:11px; font-weight:400;
+    color:var(--gray);
+    margin-top:1px;
+  }
+  table.glossary td.desc{width:50%;}
+  table.glossary td.use{width:32%;}
+  table.glossary td.use span{
+    display:inline-block;
+    font-family:var(--mono); font-size:11.5px;
+    color:var(--navy);
+    background:var(--blue-soft);
+    border:1px solid #C7E7F0;
+    padding:2px 9px;
+    border-radius:5px;
+    margin:0 6px 6px 0;
+  }
+
+  /* ---------- Mobile: stack rows into cards ---------- */
+  @media (max-width:700px){
+    table.glossary thead{display:none;}
+    table.glossary, table.glossary tbody, table.glossary tr, table.glossary td{display:block; width:100%;}
+    table.glossary tbody tr{padding:16px 18px; border-bottom:1px solid var(--gray-line);}
+    table.glossary tbody tr:last-child{border-bottom:none;}
+    table.glossary tbody td{padding:4px 0; border-bottom:none;}
+    table.glossary td.term, table.glossary td.desc, table.glossary td.use{width:100%; white-space:normal;}
+    table.glossary tbody td[data-label]::before{
+      content:attr(data-label);
+      display:block;
+      font-family:var(--mono); font-size:10.5px; font-weight:700;
+      color:var(--blue);
+      letter-spacing:.08em;
+      margin-bottom:2px;
+    }
+    table.glossary td.term::before{display:none !important;}
+  }
+
+  .back-row{margin-bottom:56px;}
+  .back-link{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:12.5px;
+    color:var(--navy);
+    background:var(--bg-card);
+    border:1px solid var(--gray-line);
+    border-radius:7px;
+    padding:9px 16px;
+    transition:background .15s ease;
+  }
+  .back-link:hover{background:var(--blue-soft);}
+
+  /* ---------- Footer (shared) ---------- */
+  footer{background:var(--navy-deep); color:#B9C6DE; padding:40px 0 28px; margin-top:20px;}
+  footer .flinks{display:flex; flex-wrap:wrap; gap:8px 18px; font-family:var(--mono); font-size:12px; margin-bottom:20px;}
+  footer .flinks a{color:#B9C6DE;}
+  footer .flinks a:hover{color:var(--blue);}
+  footer .notice{font-size:11.5px; color:#7A88A8; line-height:1.9; border-top:1px solid #22315A; padding-top:18px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="titlebar">
+    <div class="dots"><span class="dot g"></span><span class="dot b"></span><span class="dot n"></span></div>
+    <span class="path">~/pc-benkyou/report1.html</span>
+  </div>
+  <div class="brand-row">
+    <span class="brand">パソコン勉強ノート<span class="cursor-suffix">_</span></span>
+    <span class="eyebrow-top">LEARNING LOG</span>
+  </div>
+  <nav class="tabs">
+    <a href="index.html">index.html</a>
+    <a href="blog.html">blog.html</a>
+    <a href="column.html" class="active">column.html</a>
+    <a href="about.html">about.html</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head"><span class="num">report</span><h1>パソコンの用語一覧</h1></div>
+  <div class="page-sub">// 用語 / 解説 / どこで使われているか</div>
+
+  <div class="doc">
+    <div class="dbar">
+      <span class="dot g"></span><span class="dot b"></span><span class="dot n"></span>
+      <span class="fname">glossary.csv</span>
+    </div>
+
+    <table class="glossary">
+      <thead>
+        <tr>
+          <th>用語</th>
+          <th>解説</th>
+          <th>どこで使われているか</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="term" data-label="用語">CPU<span class="en">Central Processing Unit</span></td>
+          <td class="desc" data-label="解説">パソコンの頭脳にあたる部品。プログラムの命令を読み取って計算や処理を行う。</td>
+          <td class="use" data-label="どこで使われているか"><span>パソコン本体</span><span>スマホ</span><span>ゲーム機</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">メモリ<span class="en">RAM</span></td>
+          <td class="desc" data-label="解説">作業中のデータを一時的に置いておく場所。多いほど、たくさんのソフトを同時に動かしやすい。電源を切ると中身は消える。</td>
+          <td class="use" data-label="どこで使われているか"><span>パソコンのスペック表</span><span>ソフトの動作環境</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">SSD<span class="en">Solid State Drive</span></td>
+          <td class="desc" data-label="解説">データを保存しておく記憶装置のひとつ。HDDより読み書きが速く、動作音もしない。</td>
+          <td class="use" data-label="どこで使われているか"><span>パソコン本体</span><span>外付けストレージ</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">OS<span class="en">Operating System</span></td>
+          <td class="desc" data-label="解説">パソコン全体を動かす基本のソフト。ほかのソフトはOSの上で動く。WindowsやmacOSなどがある。</td>
+          <td class="use" data-label="どこで使われているか"><span>パソコン</span><span>スマホ</span><span>タブレット</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">ブラウザ<span class="en">Web Browser</span></td>
+          <td class="desc" data-label="解説">ウェブサイトを見るためのソフト。Chrome、Edge、Safariなどがある。</td>
+          <td class="use" data-label="どこで使われているか"><span>ウェブサイトの閲覧</span><span>ネットでの調べもの</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">ショートカットキー<span class="en">Keyboard Shortcut</span></td>
+          <td class="desc" data-label="解説">キーボードの組み合わせで操作を素早く行う方法。コピーのCtrl+Cや貼り付けのCtrl+Vなど。</td>
+          <td class="use" data-label="どこで使われているか"><span>文書作成</span><span>ファイル操作</span><span>ブラウザ</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">拡張子<span class="en">File Extension</span></td>
+          <td class="desc" data-label="解説">ファイル名の最後にある「.html」「.jpg」のような部分。ファイルの種類を表す。</td>
+          <td class="use" data-label="どこで使われているか"><span>ファイル名</span><span>ウェブサイト制作</span></td>
+        </tr>
+
+        <tr>
+          <td class="term" data-label="用語">クラウド<span class="en">Cloud</span></td>
+          <td class="desc" data-label="解説">インターネット上にデータを保存したり、ソフトを使ったりする仕組み。パソコンが壊れてもデータが残りやすい。</td>
+          <td class="use" data-label="どこで使われているか"><span>データのバックアップ</span><span>ファイルの共有</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="back-row">
+    <a class="back-link" href="column.html">← column.htmlに戻る</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">Azalea Creative Room</a>
+      <a href="https://rookie.shonenjump.com/users/14728546961183734555" target="_blank" rel="noopener">Jump Rookie (Azalea72)</a>
+      <a href="https://daysneo.com/author/Sam333333Sam/" target="_blank" rel="noopener">DaysNEO</a>
+      <a href="https://kakuyomu.jp/users/azalea_azalea72" target="_blank" rel="noopener">Kakuyomu</a>
+      <a href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">Pixiv</a>
+      <a href="https://www.youtube.com/@LilyPopins0512" target="_blank" rel="noopener">YouTube (リリポピ)</a>
+    </div>
+    <div class="notice">
+      当サイトに掲載されている画像・文章・作品について、AI学習への利用、トレース（トレパク）、無断転載・転載、二次利用を禁止します。スクリーンショットの転載・無断引用はご遠慮ください。<br>
+      Please refrain from using any images, text, or works on this website for AI training, tracing, unauthorized reproduction, redistribution, or secondary use.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
